@@ -52,7 +52,7 @@
 
 .done(function( item ) {
 
-    $.each( item, function( i, item[i] ) {
+    $.each( item, function( i, item ) {
       markers[i] = []; 
       item = item[i].split(",");
       markers[i][0] = item.name; //id
