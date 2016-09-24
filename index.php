@@ -3,8 +3,8 @@
         <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Safe Passage</title>
-        <script src="http://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
-        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false"></script>
+        <script src="//code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
+        <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false"></script>
         <script>
             $(document).ready(function(){
                 var markers = []; // define global array in script tag so you can use it in whole page    
@@ -40,22 +40,11 @@
                  }
                 //google map object       
                  var map = new google.maps.Map(document.getElementById("gMap"),mapProp);
-                 map.data.loadGeoJson('file://C:\git\Hack-Hunger---Safe-Passage/CPS_Safe_Passage_Routes_SY1516.geojson'); 
-
-                  //change event of input tag where type=file and  id=filename 
-                  $("#filename").change(function(e) {
-
-                     var ext = $("input#filename").val().split(".").pop().toLowerCase();
-
-                     if($.inArray(ext, ["csv"]) == -1) {
-                            alert('Upload CSV');
-                            return false;
-                      }
-
-                     if (e.target.files != undefined) {
+                 map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
+                 var markercsv = "DistroSitesV6.csv";
 
                             var reader = new FileReader();
-                            reader.onload = function(e) {
+                            reader.onload = function(markercsv) {
 
                                       var csvval=e.target.result.split("\n");
                                       var csvvalue;                                          
@@ -92,10 +81,6 @@
                              };
                              reader.readAsText(e.target.files.item(0));
                        }
-
-                     return false;
-
-                    });
             });
         </script>
         </head>
@@ -103,6 +88,5 @@
         <body>
             <div style="height:700px; width:1500px;" id="gMap">
             </div>
-            <input type="file" id="filename" name="filename"/>
         </body>
         </html>
