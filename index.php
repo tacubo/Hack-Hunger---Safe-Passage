@@ -50,9 +50,9 @@
         console.log( "success" );
       })
 
-.done(function( data ) {
+.done(function( item ) {
 
-    $.each( data.items, function( i, item ) {
+    $.each( item, function( i, item[i] ) {
       markers[i] = []; 
       item = item[i].split(",");
       markers[i][0] = item.name; //id
