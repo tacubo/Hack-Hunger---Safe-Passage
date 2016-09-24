@@ -44,8 +44,9 @@
                 var map = new google.maps.Map(document.getElementById("gMap"),mapProp);
 
                 map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
+                var depositoriesApi = "http://10.1.106.135:8080/depositories";
                 
-                  var depositoriesApi = "http://10.1.106.135:8080/depositories";
+                })();
 
                   $.getJSON( depositoriesApi, {
                     format: "json"
@@ -80,7 +81,6 @@
                       infowindow.open(map, this);
                     });
                   });
-                })();
 
 
                                       </script>
