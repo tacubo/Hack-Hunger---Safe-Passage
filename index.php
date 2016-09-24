@@ -11,6 +11,7 @@
                 var infowindow = new google.maps.InfoWindow();
                 var bounds = new google.maps.LatLngBounds();
                 var myCenter=new google.maps.LatLng(41.881832,-87.623177);
+
                 var mapProp = {
                   center:myCenter, 
                   zoom:11,
@@ -18,6 +19,7 @@
                   mapTypeId : google.maps.MapTypeId.ROADMAP,
                   mapTypeControl: true           
                 };
+
                 function infoContent(info){
                   var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance;
                   return infoString;
@@ -40,6 +42,7 @@
                 }
                 //google map object       
                 var map = new google.maps.Map(document.getElementById("gMap"),mapProp);
+
                 map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
                 var markercsv = "DistroSitesV6.csv";
 
@@ -53,30 +56,33 @@
                     $.each( data.items, function( i, item ) {
                       markers[i] = []; 
                       item = item[i].split(",");
-                                              markers[i][0] = item.name; //id
-                                              info = [];
-                                              info.name = item.name;
-                                              info.address = item.address + ' ' + item.city + ', ' + item.state + ' ' + item.zip;
-                                              info.school = item.isSchool;
-                                              info.breakfast = item.hasBreakfast;
-                                              info.lunch = item.hasLunch;
-                                              info.supper = item.hasSupper;
-                                              info.snack = item.hasPmSnack;
-                                              info.distance = "1 miles"
-                                              var name = item.name;
-                                              var lat = item.yCoordinate; //latitude
-                                              var lng = item.xCoordinate; //longitude
-                                              markers[i][1] = new google.maps.Marker({
-                                               position: new google.maps.LatLng(lat,lng),
-                                               map: map,
-                                               title: name,
-                                               info: info,                  
-                                             });
-                                              google.maps.event.addListener(markers[i][1], 'click', function () {
-                                                infowindow.setContent(infoContent(this.info));
-                                                infowindow.open(map, this);
-                                              });
+                      markers[i][0] = item.name; //id
+                      info = [];
+                      info.name = item.name;
+                      info.address = item.address + ' ' + item.city + ', ' + item.state + ' ' + item.zip;
+                      info.school = item.isSchool;
+                      info.breakfast = item.hasBreakfast;
+                      info.lunch = item.hasLunch;
+                      info.supper = item.hasSupper;
+                      info.snack = item.hasPmSnack;
+                      info.distance = "1 miles"
+                      var name = item.name;
+                      var lat = item.yCoordinate; //latitude
+                      var lng = item.xCoordinate; //longitude
+
+                      markers[i][1] = new google.maps.Marker({
+                       position: new google.maps.LatLng(lat,lng),
+                       map: map,
+                       title: name,
+                       info: info,                  
+                     });
+
+                    google.maps.event.addListener(markers[i][1], 'click', function () {
+                      infowindow.setContent(infoContent(this.info));
+                      infowindow.open(map, this);
+                    });
                   });
+                });
                 })();
 
 
