@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Safe Passage</title>
-  <script src="//code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
-  <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="application/javascript"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false"></script>
   <script>
     $(document).ready(function(){
       var markers = []; // define global array in script tag so you can use it in whole page    
@@ -21,7 +21,7 @@
       };
 
       function infoContent(info){
-        var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance;
+        var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance);
         return infoString;
       }
 
@@ -42,14 +42,52 @@
       }
       //google map object       
       var map = new google.maps.Map(document.getElementById("gMap"),mapProp);
+	  $("#filenameHeat").change(function(e) {
 
+			 var ext = $("input#filenameHeat").val().split(".").pop().toLowerCase();
+
+			 if($.inArray(ext, ["csv"]) == -1) {
+					alert('Upload CSV');
+					return false;
+			  }
+
+			 if (e.target.files != undefined) {
+
+				var reader = new FileReader();
+				reader.onload = function(e) {
+
+						  var csvval=e.target.result.split("\n");
+						  var csvvalue;                                          
+							var heatmapPoints = [];
+						  for(var i = 1;i < csvval.length;i++)
+						  {
+								  csvvalue = csvval[i].split(",");
+								  var date = csvvalue[0];
+								  var lat = csvvalue[1]; //latitude
+								  var lng = csvvalue[2]; //longitude
+								  
+								  if (!isNaN(lat) && !isNaN(lng)){ 
+									var data = new google.maps.LatLng(lat,lng);
+									heatmapPoints.push(data);
+								 }									
+						   }
+						var heatmap = new google.maps.visualization.HeatmapLayer({
+						  data: heatmapPoints,
+						  map: map
+						});
+				 };
+				 reader.readAsText(e.target.files.item(0));
+			   }
+
+			 return false;
+
+		});
+	  
       map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
-      var depositoriesApi = "http://10.1.106.135:8080/depositories";
-
-      $.getJSON(depositoriesApi, function() {
+      var depositoriesApi =  "http://10.1.106.135:8080/depositories";
+	  $.getJSON(depositoriesApi, function() {
         console.log( "success" );
       })
-
 .done(function( item ) {
 
     $.each( item, function( i, item ) {
@@ -98,6 +136,8 @@
 
 <body>
   <div style="height:700px; width:1500px;" id="gMap">
+	
   </div>
+  <input type="file" id="filenameHeat" name="filenameHeat"/>
 </body>
 </html>
