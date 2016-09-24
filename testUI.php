@@ -5,6 +5,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<style>
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+h1{
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 40px;
+}
+
+#gMap {
+    width: 100%; height: 400px; margin-top: 40px; margin-bottom: 40px;
+}
+
+.info-window {
+    font-family: 'Montserrat', sans-serif;
+}
+.info-content {
+    color: #999;
+}
+
+</style>
     </head>
     <body>
 
@@ -98,6 +118,10 @@ Catholic Charities of the Archdiocese of Chicago petitioned for and was awarded 
 
       map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
       var depositoriesApi = "http://10.1.106.135:8080/depositories";
+
+var styles = [{"featureType": "landscape", "stylers": [{"saturation": -100}, {"lightness": 65}, {"visibility": "on"}]}, {"featureType": "poi", "stylers": [{"saturation": -100}, {"lightness": 51}, {"visibility": "simplified"}]}, {"featureType": "road.highway", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "road.arterial", "stylers": [{"saturation": -100}, {"lightness": 30}, {"visibility": "on"}]}, {"featureType": "road.local", "stylers": [{"saturation": -100}, {"lightness": 40}, {"visibility": "on"}]}, {"featureType": "transit", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "administrative.province", "stylers": [{"visibility": "off"}]}, {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "on"}, {"lightness": -25}, {"saturation": -100}]}, {"featureType": "water", "elementType": "geometry", "stylers": [{"hue": "#ffff00"}, {"lightness": -25}, {"saturation": -97}]}];
+
+        map.set('styles', styles);
 
       $.getJSON(depositoriesApi, function() {
         console.log( "success" );
