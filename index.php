@@ -76,7 +76,6 @@
                                                 infowindow.setContent(infoContent(this.info));
                                                 infowindow.open(map, this);
                                               });
-                                            });
                   });
                 })();
 
