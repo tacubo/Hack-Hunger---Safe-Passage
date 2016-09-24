@@ -187,6 +187,7 @@ var styles = [{"featureType": "landscape", "stylers": [{"saturation": -100}, {"l
 
       markers[i][1] = new google.maps.Marker({
         position: new google.maps.LatLng(lat,lng),
+        animation: google.maps.Animation.DROP,
         map: map,
         title: name,
         info: info,                  
