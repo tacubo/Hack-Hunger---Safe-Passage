@@ -1,0 +1,151 @@
+<html>
+    <head>
+        <title>Safe Passages</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-8 col-lg-offset-2">
+
+                    <h1><strong>Safe Passages</strong></h1>
+
+            </div> 
+
+        </div> 
+        <div id="gMap"></div>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-8 col-lg-offset-2">
+
+                    <h3><strong>Who we did this for</strong></h3>
+
+                    <p class="lead"><a href="http://www.usda.gov/wps/portal/usda/usdahome?contentid=2014/03/0048.xml" target="_blank">Only 11% of Eligible Kids in Illinois Participate in Summer Meal Program</a> (2014) Chicago’s participation appears higher than the state average, but still low.</p>
+
+                    <h3><strong>Why we did this</strong></h3>
+
+                    <p class="lead">We already know that violence in Chicago is changing the way that food is distributed in summer. 
+Catholic Charities of the Archdiocese of Chicago petitioned for and was awarded a congregate feeding waiver due to gang activity and high rates of retaliatory violence in Chicago. According to Catholic Charities, “children were afraid to sit and eat… because of gang warfare and shootings in the area.” </p>
+
+
+                    <h3><strong>What’s done about this now</strong></h3>
+
+                    <p class="lead">Safe Passage at CPS has been around since 2009 to monitor kids walking to and from school in at-risk neighborhoods.  A new $112,500 initiative modeled after Safe Passage is being launched to watch over children headed to the parks for summer programs. </p>
+
+                    <h3><strong>What we want to do</strong></h3>
+
+                    <p class="lead">Seems reasonable that unsafe travel to/from the distribution sites would be a deterrent to participation in much the same way.  Let's see if we can quantify that assumption. </p>
+
+                    <h3><strong>What we want to do</strong></h3>
+
+                    <p class="lead">Seems reasonable that unsafe travel to/from the distribution sites would be a deterrent to participation in much the same way.  Let's see if we can quantify that assumption. </p>
+                    
+                </div>
+
+            </div> 
+
+        </div> 
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY"></script>
+  <script>
+    $(document).ready(function(){
+      var markers = []; // define global array in script tag so you can use it in whole page    
+      var infowindow = new google.maps.InfoWindow();
+      var bounds = new google.maps.LatLngBounds();
+      var myCenter=new google.maps.LatLng(41.881832,-87.623177);
+
+      var mapProp = {
+        center:myCenter, 
+        zoom:11,
+        minZoom:6,          
+        mapTypeId : google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: true           
+      };
+
+      function infoContent(info){
+        var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance;
+        return infoString;
+      }
+
+      function isTrue(data){
+        if (data == 0){
+          return 'False'
+        }else{
+          return 'True'
+        }
+      }
+
+      function isAvailable(data){
+        if (data == 0){
+          return 'Not Available'
+        }else{
+          return 'Available'
+        }
+      }
+      //google map object       
+      var map = new google.maps.Map(document.getElementById("gMap"),mapProp);
+
+      map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
+      var depositoriesApi = "http://10.1.106.135:8080/depositories";
+
+      $.getJSON(depositoriesApi, function() {
+        console.log( "success" );
+      })
+
+.done(function( item ) {
+
+    $.each( item, function( i, item ) {
+      markers[i] = []; 
+      //item = item[i].split(",");
+      markers[i][0] = item.name; //id
+      info = [];
+      info.name = item.name;
+      info.address = item.address + ' ' + item.city + ', ' + item.state + ' ' + item.zip;
+      info.school = item.isSchool;
+      info.breakfast = item.hasBreakfast;
+      info.lunch = item.hasLunch;
+      info.supper = item.hasSupper;
+      info.snack = item.hasPmSnack;
+      info.distance = "1 miles"
+      var name = item.name;
+      var lat = item.yCoordinate; //latitude
+      var lng = item.xCoordinate; //longitude
+
+      markers[i][1] = new google.maps.Marker({
+        position: new google.maps.LatLng(lat,lng),
+        map: map,
+        title: name,
+        info: info,                  
+      });
+
+      google.maps.event.addListener(markers[i][1], 'click', function () {
+        infowindow.setContent(infoContent(this.info));
+        infowindow.open(map, this);
+      });
+
+    });
+
+  })
+});
+
+
+
+
+
+
+
+
+</script>
+    </body>
+</html>
