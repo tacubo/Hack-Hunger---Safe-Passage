@@ -52,39 +52,36 @@
 .done(function( data ) {
   console.log( "second success" );
 
-$.each( data.items, function( i, item ) {
-markers[i] = []; 
-item = item[i].split(",");
-markers[i][0] = item.name; //id
-info = [];
-info.name = item.name;
-info.address = item.address + ' ' + item.city + ', ' + item.state + ' ' + item.zip;
-info.school = item.isSchool;
-info.breakfast = item.hasBreakfast;
-info.lunch = item.hasLunch;
-info.supper = item.hasSupper;
-info.snack = item.hasPmSnack;
-info.distance = "1 miles"
-var name = item.name;
-var lat = item.yCoordinate; //latitude
-var lng = item.xCoordinate; //longitude
+    $.each( data.items, function( i, item ) {
+    markers[i] = []; 
+    item = item[i].split(",");
+    markers[i][0] = item.name; //id
+    info = [];
+    info.name = item.name;
+    info.address = item.address + ' ' + item.city + ', ' + item.state + ' ' + item.zip;
+    info.school = item.isSchool;
+    info.breakfast = item.hasBreakfast;
+    info.lunch = item.hasLunch;
+    info.supper = item.hasSupper;
+    info.snack = item.hasPmSnack;
+    info.distance = "1 miles"
+    var name = item.name;
+    var lat = item.yCoordinate; //latitude
+    var lng = item.xCoordinate; //longitude
 
-markers[i][1] = new google.maps.Marker({
-  position: new google.maps.LatLng(lat,lng),
-  map: map,
-  title: name,
-  info: info,                  
+    markers[i][1] = new google.maps.Marker({
+      position: new google.maps.LatLng(lat,lng),
+      map: map,
+      title: name,
+      info: info,                  
+    });
+
+    google.maps.event.addListener(markers[i][1], 'click', function () {
+      infowindow.setContent(infoContent(this.info));
+      infowindow.open(map, this);
+    });
+
 });
-
-google.maps.event.addListener(markers[i][1], 'click', function () {
-  infowindow.setContent(infoContent(this.info));
-  infowindow.open(map, this);
-});
-
-});
-
-})
-
 
 })();
 
