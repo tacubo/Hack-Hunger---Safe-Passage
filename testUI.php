@@ -87,7 +87,7 @@ Catholic Charities of the Archdiocese of Chicago petitioned for and was awarded 
 
       var mapProp = {
         center:myCenter, 
-        zoom:11,
+        zoom:12,
         minZoom:6,          
         mapTypeId : google.maps.MapTypeId.ROADMAP,
         mapTypeControl: true           
