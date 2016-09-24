@@ -1,6 +1,8 @@
 JARS=jars
 POSTGRESJAR=$JARS/postgresql-9.4.1211.jre6.jar
 
-SRCPATH=
+SRCPATH=src/src
 
-java -classpath jars/postgresql-9.4.1211.jre6.jar:out/production/src Main
+CLASSPATH=$POSTGRESJAR
+
+javac -classpath $CLASSPATH -sourcepath $SRCPATH -d out/production/src $SRCPATH/Main.java
