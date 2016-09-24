@@ -94,7 +94,7 @@ Catholic Charities of the Archdiocese of Chicago petitioned for and was awarded 
       };
 
       function infoContent(info){
-        var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance;
+        var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance+ '<br><b>ADP/Eligibles: </b> ' + info.engagement;
         return infoString;
       }
 
@@ -141,7 +141,8 @@ var styles = [{"featureType": "landscape", "stylers": [{"saturation": -100}, {"l
       info.lunch = item.hasLunch;
       info.supper = item.hasSupper;
       info.snack = item.hasPmSnack;
-      info.distance = "1 miles"
+      info.distance = Math.round(item.nearestRouteDistance) + "meters";
+      info.engagement = Math.round(item.engagementScore)"
       var name = item.name;
       var lat = item.yCoordinate; //latitude
       var lng = item.xCoordinate; //longitude
