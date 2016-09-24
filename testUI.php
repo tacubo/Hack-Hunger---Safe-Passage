@@ -14,7 +14,7 @@ h1{
 }
 
 #gMap {
-    width: 100%; height: 400px; margin-top: 40px; margin-bottom: 40px;
+    width: 100%; height: 500px; margin-top: 40px; margin-bottom: 40px;
 }
 
 .info-window {
