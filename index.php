@@ -3,8 +3,8 @@
         <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Safe Passage</title>
-        <script src="http://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
-        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false"></script>
+        <script src="//code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
+        <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false"></script>
         <script>
             $(document).ready(function(){
                 var markers = []; // define global array in script tag so you can use it in whole page    
@@ -18,8 +18,12 @@
                         mapTypeId : google.maps.MapTypeId.ROADMAP,
                         mapTypeControl: true           
                     };
+                 function infoContent(info){
+                  return 'Address: '+ info;
+                 }
                 //google map object       
-                 var map = new google.maps.Map(document.getElementById("gMap"),mapProp); 
+                 var map = new google.maps.Map(document.getElementById("gMap"),mapProp);
+                 map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
 
                   //change event of input tag where type=file and  id=filename 
                   $("#filename").change(function(e) {
@@ -54,7 +58,7 @@
                                                    info: name,                  
                                               });
                                               google.maps.event.addListener(markers[i][1], 'click', function () {
-                                                infowindow.setContent(this.info);
+                                                infowindow.setContent(infoContent(this.info));
                                                   infowindow.open(map, this);
                                               });
                                        }
