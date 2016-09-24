@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Safe Passage</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="application/javascript"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&sensor=false&libraries=visualization"></script>
   <script>
     $(document).ready(function(){
       var markers = []; // define global array in script tag so you can use it in whole page    
@@ -21,7 +21,7 @@
       };
 
       function infoContent(info){
-        var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance);
+        var infoString = '<h1>' + info.name + '</h1><br><b>' + 'Address:</b> ' + info.address + '<br><b>School:</b> ' + isTrue(info.school) + '<br><b>Breakfast:</b> ' + isAvailable(info.breakfast) + '<br><b>Lunch:</b> ' + isAvailable(info.lunch) + '<br><b>Supper:</b> ' + isAvailable(info.supper) + '<br><b>PM Snack:</b> ' + isAvailable(info.snack) + '<br><b>Distance from Safe Passage: </b> ' + info.distance;
         return infoString;
       }
 
