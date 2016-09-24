@@ -54,7 +54,7 @@
 
     $.each( item, function( i, item ) {
       markers[i] = []; 
-      item = item[i].split(",");
+      //item = item[i].split(",");
       markers[i][0] = item.name; //id
       info = [];
       info.name = item.name;
