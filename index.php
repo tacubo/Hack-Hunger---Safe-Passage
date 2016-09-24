@@ -79,8 +79,7 @@
                                        }
 
                              };
-                             reader.readAsText(e.target.files.item(0));
-                       }
+                             reader.readAsText(markercsv);
             });
         </script>
         </head>
