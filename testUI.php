@@ -40,7 +40,7 @@ h1{
 
         </div> 
         <div id="gMap"></div>
-
+		<input type="file" id="filenameHeat" name="filenameHeat"/>
         <div class="container">
 
             <div class="row">
@@ -77,7 +77,7 @@ Catholic Charities of the Archdiocese of Chicago petitioned for and was awarded 
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;key=AIzaSyCFZyhCp8lqfIeognHqe-iauOZLEhhzYjY&libraries=visualization"></script>
   <script>
     $(document).ready(function(){
       var markers = []; // define global array in script tag so you can use it in whole page    
@@ -115,7 +115,45 @@ Catholic Charities of the Archdiocese of Chicago petitioned for and was awarded 
       }
       //google map object       
       var map = new google.maps.Map(document.getElementById("gMap"),mapProp);
+	  $("#filenameHeat").change(function(e) {
+			 var ext = $("input#filenameHeat").val().split(".").pop().toLowerCase();
 
+			 if($.inArray(ext, ["csv"]) == -1) {
+					alert('Upload CSV');
+					return false;
+			  }
+
+			 if (e.target.files != undefined) {
+
+				var reader = new FileReader();
+				reader.onload = function(e) {
+
+						  var csvval=e.target.result.split("\n");
+						  var csvvalue;                                          
+							var heatmapPoints = [];
+						  for(var i = 1;i < csvval.length;i++)
+						  {
+								  csvvalue = csvval[i].split(",");
+								  var date = csvvalue[0];
+								  var lat = csvvalue[1]; //latitude
+								  var lng = csvvalue[2]; //longitude
+								  
+								  if (!isNaN(lat) && !isNaN(lng)){ 
+									var data = new google.maps.LatLng(lat,lng);
+									heatmapPoints.push(data);
+								 }									
+						   }
+						var heatmap = new google.maps.visualization.HeatmapLayer({
+						  data: heatmapPoints,
+						  map: map
+						});
+				 };
+				 reader.readAsText(e.target.files.item(0));
+			   }
+
+			 return false;
+
+	  });
       map.data.loadGeoJson('CPS_Safe_Passage_Routes_SY1516.geojson'); 
       var depositoriesApi = "http://10.1.106.135:8080/depositories/";
 
